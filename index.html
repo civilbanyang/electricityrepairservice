@@ -1,98 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <base target="_top">
-   <title>electricityrepairservice</title>
-   <link rel="icon" href="https://lh5.googleusercontent.com/d/14aIJCrUEJxix0Hbsyjgf9IsUrcfg6mbN" type="image/png">
-   <style>
-      body {
-         margin: 0;
-         padding: 0;
-         overflow: hidden;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         height: 100vh;
-         width: 100vw;
-      }
-      .container {
-         position: relative;
-         width: 100%;
-         height: 100%;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-      }
-      .logo {
-         position: absolute;
-         top: 10px;
-         left: 10px;
-         width: 10vw; 
-         max-width: 100px;
-         height: auto;
-      }
-      .iframe-container {
-         position: absolute;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-      }
-      .iframe-container iframe {
-         width: 100%;
-         height: 100%;
-         border: 0;
-      }
-      /* Loader Wrapper Styles */
-      .loader-wrapper {
-         position: fixed;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-         background: rgba(255, 255, 255, 0.8);
-         display: flex;
-         flex-direction: column;
-         justify-content: center;
-         align-items: center;
-         z-index: 9999;
-      }
-      .loader {
-         border: 8px solid #f3f3f3;
-         border-radius: 50%;
-         border-top: 8px solid #3498db;
-         width: 50px;
-         height: 50px;
-         animation: spin 1s linear infinite;
-      }
-      @keyframes spin {
-         0% { transform: rotate(0deg); }
-         100% { transform: rotate(360deg); }
-      }
-      .loader-text {
-         margin-top: 10px;
-         font-size: 16px;
-         color: #3498db;
-         font-family: Arial, sans-serif;
-      }
-   </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- ── Open Graph (แสดงสวยเวลาแชร์ใน LINE / Facebook) ── -->
+  <meta property="og:title"       content="แจ้งซ่อมไฟฟ้าสาธารณะ">
+  <meta property="og:description" content="เทศบาลตำบลบ้านยาง อ.เกษตรสมบูรณ์ จ.ชัยภูมิ">
+  <meta property="og:image"       content="https://lh3.googleusercontent.com/d/14aIJCrUEJxix0Hbsyjgf9IsUrcfg6mbN">
+  <meta property="og:type"        content="website">
+
+  <!-- ── redirect ทันที ── -->
+  <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbzZ0WVcoS1czIQjEQJx7q8PYwvthxTghNiFLQRN2aUgCkbyJqUGywsRuEyiKgyMpun7_A/exec">
+
+  <title>แจ้งซ่อมไฟฟ้า — บ้านยาง</title>
+  <link rel="icon" href="https://lh3.googleusercontent.com/d/14aIJCrUEJxix0Hbsyjgf9IsUrcfg6mbN" type="image/png">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(160deg, #1a237e 0%, #3949ab 100%);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 28px 32px;
+      text-align: center;
+      max-width: 360px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    }
+
+    .logo {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #e8eaf6;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(26,35,126,0.15);
+    }
+
+    .logo-fallback {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: #e8eaf6;
+      display: none;
+      align-items: center; justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 16px;
+    }
+
+    h1 {
+      font-size: 20px; font-weight: 700;
+      color: #1a237e; margin-bottom: 6px; line-height: 1.4;
+    }
+    p.sub {
+      font-size: 13px; color: #7986cb; margin-bottom: 28px; line-height: 1.6;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 44px; height: 44px;
+      border: 4px solid #e8eaf6;
+      border-top-color: #3949ab;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-txt {
+      font-size: 15px; color: #555; margin-bottom: 28px;
+    }
+
+    /* ปุ่มกดเปิด (fallback กรณี redirect ช้า) */
+    .btn {
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      gap: 8px;
+      width: 100%; height: 52px;
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      color: #fff; border: none; border-radius: 12px;
+      font-size: 17px; font-weight: 700;
+      text-decoration: none; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(26,35,126,0.35);
+      transition: opacity .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active { opacity: .85; }
+
+    .note {
+      margin-top: 16px;
+      font-size: 12px; color: #aaa; line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-   <div class="loader-wrapper" id="loader">
-      <div class="loader"></div>
-      <div class="loader-text">กำลังโหลด...</div>
-   </div>
-   <div class="container">
-      <div class="iframe-container">
-         <iframe src="https://script.google.com/a/~/macros/s/AKfycbzZ0WVcoS1czIQjEQJx7q8PYwvthxTghNiFLQRN2aUgCkbyJqUGywsRuEyiKgyMpun7_A/exec"></iframe>
-      </div>
-   </div>
-   <script>
-      window.addEventListener('load', function() {
-         var loader = document.getElementById('loader');
-         loader.style.display = 'none';
-      });
-   </script>
+
+<div class="card">
+
+  <img class="logo"
+       src="https://lh3.googleusercontent.com/d/14aIJCrUEJxix0Hbsyjgf9IsUrcfg6mbN"
+       alt="โลโก้"
+       onerror="this.style.display='none';document.querySelector('.logo-fallback').style.display='flex'">
+  <div class="logo-fallback">🏛️</div>
+
+  <h1>แจ้งซ่อมไฟฟ้าสาธารณะ</h1>
+  <p class="sub">เทศบาลตำบลบ้านยาง<br>อ.เกษตรสมบูรณ์ จ.ชัยภูมิ</p>
+
+  <div class="spinner"></div>
+  <div class="loading-txt">กำลังเปิดฟอร์ม...</div>
+
+  <!-- ปุ่มสำรอง กรณีเบราว์เซอร์ไม่ redirect อัตโนมัติ -->
+  <a class="btn"
+     id="openBtn"
+     href="https://script.google.com/macros/s/AKfycbzZ0WVcoS1czIQjEQJx7q8PYwvthxTghNiFLQRN2aUgCkbyJqUGywsRuEyiKgyMpun7_A/exec"
+     style="display:none">
+    📝 กดที่นี่เพื่อเปิดฟอร์ม
+  </a>
+
+  <p class="note" id="noteMsg"></p>
+</div>
+
+<script>
+  const TARGET = 'https://script.google.com/macros/s/AKfycbzZ0WVcoS1czIQjEQJx7q8PYwvthxTghNiFLQRN2aUgCkbyJqUGywsRuEyiKgyMpun7_A/exec';
+
+  // ตรวจว่าเปิดใน LINE Browser หรือ WebView
+  const ua       = navigator.userAgent || '';
+  const isLine   = /Line\//i.test(ua);
+  const isWV     = /wv\b/i.test(ua) || /FB_IAB|FBAV|Instagram|Snapchat/i.test(ua);
+
+  function goNow() {
+    window.location.replace(TARGET);
+  }
+
+  if (isLine) {
+    // LINE บล็อก redirect บางรูปแบบ — ใช้ location.href + แสดงปุ่ม
+    document.getElementById('noteMsg').textContent =
+      'หากหน้าไม่เปิดอัตโนมัติ กรุณากดปุ่มด้านบน';
+    setTimeout(() => {
+      document.getElementById('openBtn').style.display = 'flex';
+    }, 800);
+    window.location.href = TARGET;
+
+  } else if (isWV) {
+    // WebView อื่นๆ — แสดงปุ่มทันที
+    document.getElementById('openBtn').style.display = 'flex';
+    document.querySelector('.loading-txt').textContent = 'กรุณากดปุ่มด้านล่าง';
+    document.querySelector('.spinner').style.display  = 'none';
+    document.getElementById('noteMsg').textContent =
+      'แอปที่ใช้อยู่ไม่รองรับการเปิดอัตโนมัติ';
+
+  } else {
+    // เบราว์เซอร์ทั่วไป — redirect ทันที
+    goNow();
+    // fallback: ถ้า 2 วินาทียังไม่ไป แสดงปุ่ม
+    setTimeout(() => {
+      document.getElementById('openBtn').style.display = 'flex';
+      document.getElementById('noteMsg').textContent   =
+        'หากไม่เปิดอัตโนมัติ กรุณากดปุ่มด้านบน';
+    }, 2000);
+  }
+</script>
+
 </body>
 </html>
